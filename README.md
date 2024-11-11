@@ -156,7 +156,6 @@ A AUC mede a capacidade do modelo de classificar corretamente as instâncias. Um
 As métricas de avaliação são essenciais para entender a performance de modelos de classificação. A escolha das métricas corretas depende do problema específico e das consequências de diferentes tipos de erros.
 
 
-
 # Problemas Binários em Machine Learning
 
 ## Interpolação em Problemas Binários
@@ -205,3 +204,125 @@ Erros absolutos podem ser desproporcionalmente influenciados por outliers (valor
 Usar um erro relativo reduz esse impacto porque, mesmo para valores extremos, o erro será avaliado em relação ao próprio valor.
 4. Mais Apropriado para Certos Tipos de Modelos
 Em problemas onde as variáveis são multiplicativas ou seguem distribuições que são melhor modeladas em escala logarítmica, usar um erro baseado na razão é mais adequado. Por exemplo, modelos de crescimento exponencial ou de séries temporais muitas vezes se beneficiam mais do uso de um erro relativo.
+
+
+# Explicação de Modelos de Machine Learning
+
+## 1. Regressão Logística
+A Regressão Logística é um modelo de classificação (apesar do nome) usado para prever uma variável binária (0 ou 1). Ele estima a probabilidade de uma amostra pertencer a uma classe usando a **função sigmoide**:
+
+### Funcionamento:
+- A função sigmoide mapeia os resultados para o intervalo entre 0 e 1:
+  \[
+  \text{sigmoide}(z) = \frac{1}{1 + e^{-z}}
+  \]
+- O modelo calcula uma pontuação \(z\) usando uma combinação linear das características:
+  \[
+  z = w_0 + w_1x_1 + w_2x_2 + \ldots + w_nx_n
+  \]
+- A função sigmoide transforma \(z\) em uma probabilidade, e com base em um limiar (0,5), o modelo decide a classe (0 ou 1).
+
+### Vantagens:
+- Fácil de interpretar.
+- Eficiente para problemas lineares.
+
+### Desvantagens:
+- Não funciona bem para problemas não lineares.
+- Sensível a outliers.
+
+---
+
+## 2. Support Vector Machines (SVM)
+O SVM é um modelo de classificação que busca encontrar o **hiperplano** que melhor separa as classes no espaço de características.
+
+### Funcionamento:
+- O objetivo é encontrar o hiperplano que maximiza a margem entre as classes (distância máxima dos pontos mais próximos de cada classe, chamados de **vetores de suporte**).
+- Para problemas não linearmente separáveis, o SVM usa **kernels** para transformar o espaço de características.
+
+### Vantagens:
+- Eficaz para alta dimensionalidade.
+- Funciona bem para problemas não lineares com kernels.
+
+### Desvantagens:
+- Pode ser caro computacionalmente.
+- Sensível à escolha do kernel e aos parâmetros.
+
+---
+
+## 3. Árvore de Decisão
+Uma árvore de decisão divide os dados em grupos baseados nas características, formando uma estrutura hierárquica de decisões.
+
+### Funcionamento:
+- Cada nó representa uma característica, e cada ramo representa uma decisão baseada nessa característica.
+- O objetivo é criar divisões que aumentem a "pureza" das classes, minimizando a impureza usando métricas como **Gini** ou **Entropia**.
+
+### Vantagens:
+- Fácil de interpretar e visualizar.
+- Não precisa de normalização dos dados.
+
+### Desvantagens:
+- Propensa a overfitting.
+- Instável para pequenas mudanças nos dados.
+
+---
+
+## 4. Modelos de Ensemble
+
+Modelos de ensemble combinam múltiplos classificadores para melhorar a precisão e reduzir o risco de overfitting.
+
+### Bagging (Bootstrap Aggregating):
+- O **bagging** cria vários subconjuntos de dados de treino usando amostragem com reposição.
+- Cada modelo é treinado nesses subconjuntos, e a decisão final é tomada pela **votação majoritária** (para classificação) ou média (para regressão).
+- **Random Forest** é uma aplicação do bagging usando múltiplas árvores de decisão.
+
+### Random Forest:
+- Constrói múltiplas árvores de decisão, cada uma treinada em diferentes subconjuntos de dados e características.
+- Reduz a variância e o risco de overfitting.
+
+### Boosting:
+- O **boosting** ajusta sequencialmente vários modelos fracos, onde cada modelo tenta corrigir os erros do anterior.
+- Exemplos:
+  - **AdaBoost**: Aumenta o peso dos exemplos mal classificados.
+  - **Gradient Boosting**: Otimiza os erros residuais.
+
+### Vantagens dos Modelos de Ensemble:
+- Melhoram a precisão.
+- Menos propensos a overfitting comparados a um único modelo.
+
+### Desvantagens:
+- Podem ser difíceis de interpretar.
+- Custosos computacionalmente.
+
+---
+
+## 5. Introdução a Redes Neurais
+Redes neurais são modelos inspirados no funcionamento do cérebro, compostas de **neurônios artificiais** organizados em camadas.
+
+### Funcionamento:
+- Cada neurônio recebe uma entrada, aplica uma **função de ativação** (como ReLU, Sigmoid), e passa o resultado para a próxima camada.
+- A rede ajusta os pesos durante o treinamento para minimizar a função de perda usando o **backpropagation**.
+
+### Arquitetura:
+- **Rede Neural Simples**: Camada de entrada, uma ou mais camadas ocultas e uma camada de saída.
+- **Deep Learning**: Redes com várias camadas ocultas para problemas complexos como reconhecimento de imagem.
+
+### Vantagens:
+- Detecta padrões complexos e dados não estruturados (imagens, texto).
+- Aprende representações de alto nível automaticamente.
+
+### Desvantagens:
+- Requer grandes quantidades de dados e poder computacional.
+- Difícil de interpretar (caixa preta).
+
+---
+
+## Resumo
+
+| Modelo                  | Tipo          | Vantagem Principal             | Limitação Principal             |
+|-------------------------|---------------|--------------------------------|---------------------------------|
+| Regressão Logística     | Classificação | Interpretação simples          | Não funciona bem para dados não lineares |
+| SVM                     | Classificação | Eficaz para alta dimensionalidade | Custo computacional alto        |
+| Árvore de Decisão       | Classificação | Fácil de interpretar           | Propensa a overfitting          |
+| Random Forest           | Ensemble      | Reduz overfitting              | Difícil de interpretar          |
+| Boosting                | Ensemble      | Alta precisão                  | Sensível a outliers             |
+| Redes Neurais           | Deep Learning | Alta capacidade de aprendizado | Requer muitos dados e poder computacional |
